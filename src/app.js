@@ -6,7 +6,7 @@ import NoCheckedException from "./exception/NoCheckedException";
 import NotFound404Exception from "./exception/NotFound404Exception";
 import NullException from "./exception/NullException";
 
-import * as api from "./services/api";
+import * as api from "./services/store-items";
 
 export default class App {
   constructor(root) {
@@ -28,13 +28,8 @@ export default class App {
     this._root.append(this._toDoList.node);
   }
 
-  _load() {
-    let items;
-    try {
-      items = api.load();
-    } catch (err) {
-      items = [];
-    }
+  async _load() {
+    const items = await api.load()
 
     items.forEach(item =>
       this._toDoList.push(
